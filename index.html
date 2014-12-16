@@ -1,0 +1,114 @@
+<html>
+<head>
+<link rel="stylesheet" href='jquery.mobile-1.4.4.min.css'/>
+<script type="text/javascript" src="jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src='jquery.mobile-1.4.4.min.js'></script> 
+<script type="text/javascript" src='Barcode.js'></script> 
+<script>
+		function syncAjax(u){
+		console.log(u); 
+        var obj=$.ajax(
+          {url:u,
+           async:false
+           }
+        );
+		console.log(obj.responseText);
+        return $.parseJSON(obj.responseText);
+        
+      }
+
+
+	$(document).ready(function(){
+	  $('#sign').click(function(){
+		  var n=$('#name').val();
+		  var em=$('#email').val();
+		  var pn=$('#phone').val();
+		  var og=$('#org').val();
+		  var u ="http://localhost/iwuzhiersom/events_action.php?cmd=5&name="+n+"&email="+em+"&phone="+pn+"&org="+og;
+		  alert("You will recieve an SMS shortly containing your unique passkey");
+		  return syncAjax(u);
+		  $('#name').val('');
+		  $('#email').val('');
+		  $('#phone').val('');
+		  $('#org').val('');
+		  });
+		  
+	$('#direct').click(function(){
+	window.location.href="http://localhost/iwuzhiersom/events_rss.php";
+	});
+	
+	$('#getbc').click(function(){
+	window.location.href="#barcode";
+	});
+	
+		  
+	  });
+</script>
+</head>
+<body>
+<!--Sign Up-->
+
+<div data-role="page" id="home">
+<div data-role="header">
+<div data-role="navbar">
+	<ul>	
+	<li><a	href="#home" data-transition="pop" data-icon="home">Home</a></li>
+	<h1 align="center">The Event</h1>
+	<li><a id="direct" data-transition="pop" data-icon="rss-square">Upcoming Events</a></li>
+	</ul>
+</div>
+</div>
+
+
+<div role="main" class="ui-content" align="center">
+	<p>Sign up Right Here<p>
+	<table>
+	<tr><td>Name:</td><td><input type="text" id="name" placeholder="Name"></td></tr>
+	<tr><td>Email:</td><td><input type="text" id="email" placeholder="E-mail"></td></tr>
+	<tr><td>Phone No.:</td><td><input type="text" id="phone" placeholder="Phone No."></td></tr>
+	<tr><td>Organization:</td><td><input type="text" id="org" placeholder="Org."></td></tr>
+	<tr><td><button id="sign">Book a Reservation</button></td><td><button id="reset" type="reset">Reset</button></td></tr>
+	<button id="getbc">Get Barcode</button>
+	</table>
+</div>
+
+<div data-role="footer">
+<h1>Developed By: Tha Cartel</h1>
+</div>
+</div>
+
+
+<!--Barcode---->
+
+<div data-role="page" id="barcode">
+<div data-role="header">
+<div data-role="navbar">
+	<ul>	
+	<li><a	href="#home" data-transition="pop" data-icon="home">Home</a></li>
+	<h1 align="center">The Event</h1>
+	<li><a id="direct" data-transition="pop" data-icon="rss-square">Upcoming Events</a></li>
+	</ul>
+</div>
+</div>
+
+<script type="text/javascript">
+function writeBC(s)
+{
+    var bc = new AtalasoftBarcode39(s);
+    document.getElementById('bcArea').innerHTML = bc.getBarcode(50, 2, 8);
+}
+</script>
+<div role="main" class="ui-content" align="center">
+<input type="text" id="bcdata" />
+<input type="button" onclick="writeBC(document.getElementById('bcdata').value)"  value="Draw"/>
+<br />
+<div align="center" id="bcArea"></div>
+</div>
+
+<div data-role="footer">
+<h1>Developed By: Tha Cartel</h1>
+</div>
+</div>
+
+</body>
+</html>
